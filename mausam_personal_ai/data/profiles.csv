@@ -1,0 +1,9 @@
+profile,name,priority_1,priority_2,priority_3,priority_4
+health,Health-conscious,aqi,uv,humidity,temperature
+fitness,Outdoor Fitness,rain,wind,uv,sunrise_sunset
+beach,Beach & Surfer,waves,tide,water_temperature,wind
+traveler,Traveler,forecast,rain,warnings,temperature
+family,Parents & Families,rain,warnings,temperature,visibility
+agriculture,Agriculture & Garden,rainfall,soil_moisture,temperature,frost
+commuter,Commuter,rain,visibility,wind,warnings
+event,Event Planner,rain_probability,temperature,humidity,wind

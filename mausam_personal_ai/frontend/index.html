@@ -1,0 +1,5674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Mausam PersonalAI - Personalized Weather Intelligence Platform"
+    >
+
+    <title>Mausam PersonalAI</title>
+
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef6ff 0%,
+                    #f8fbff 50%,
+                    #eef2ff 100%
+                );
+
+            color: #1f2937;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        button,
+        select,
+        input {
+            font-family: inherit;
+        }
+
+        /* =========================================================
+           MAIN CONTAINER
+           ========================================================= */
+
+        .container {
+            width: 100%;
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .header {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: white;
+
+            border-radius: 24px;
+
+            padding: 34px;
+
+            margin-bottom: 24px;
+
+            box-shadow:
+                0 18px 45px rgba(37, 99, 235, 0.22);
+        }
+
+        .header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 320px;
+            height: 320px;
+
+            right: -100px;
+            top: -130px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.08);
+        }
+
+        .header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            left: 45%;
+            bottom: -160px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.06);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .brand-icon {
+            width: 66px;
+            height: 66px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.16);
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            font-size: 34px;
+        }
+
+        .brand-title {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+        }
+
+        .brand-subtitle {
+            margin-top: 2px;
+
+            font-size: 16px;
+
+            opacity: 0.9;
+        }
+
+        .header-description {
+            margin-top: 18px;
+
+            max-width: 900px;
+
+            font-size: 15px;
+
+            opacity: 0.9;
+        }
+
+        /* =========================================================
+           CARD
+           ========================================================= */
+
+        .card {
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 20px;
+
+            padding: 24px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 28px rgba(15,23,42,0.06);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            color: #111827;
+
+            margin-bottom: 8px;
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                #eef2ff;
+
+            font-size: 21px;
+        }
+
+        .section-description {
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        /* =========================================================
+           INPUT GRID
+           ========================================================= */
+
+        .input-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #374151;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+
+            min-height: 48px;
+
+            padding:
+                0 14px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 12px;
+
+            background: white;
+
+            color: #111827;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #4f46e5;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(79,70,229,0.10);
+        }
+
+        .form-group select:disabled {
+            background: #f3f4f6;
+
+            color: #9ca3af;
+
+            cursor: not-allowed;
+        }
+
+        .profile-help {
+            margin-top: 8px;
+
+            padding: 10px 12px;
+
+            border-radius: 10px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e5e7eb;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           TRAVELER
+           ========================================================= */
+
+        #travelerSection {
+            display: none;
+        }
+
+        .traveler-box {
+            margin-top: 24px;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8faff,
+                    #f5f3ff
+                );
+
+            border:
+                1px solid #ddd6fe;
+        }
+
+        .traveler-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+        .traveler-note {
+            margin-top: 18px;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            background: #eef2ff;
+
+            border-left:
+                4px solid #4f46e5;
+
+            color: #4338ca;
+
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           BUTTON
+           ========================================================= */
+
+        .button-row {
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-top: 24px;
+        }
+
+        .generate-button {
+            min-height: 52px;
+
+            padding:
+                0 28px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 10px 24px
+                rgba(79,70,229,0.25);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .generate-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(79,70,229,0.32);
+        }
+
+        .generate-button:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        /* =========================================================
+           ERROR
+           ========================================================= */
+
+        #error {
+            display: none;
+
+            margin-bottom: 20px;
+
+            padding: 16px 18px;
+
+            border-radius: 14px;
+
+            background: #fef2f2;
+
+            border:
+                1px solid #fecaca;
+
+            border-left:
+                5px solid #dc2626;
+
+            color: #991b1b;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           LOADING
+           ========================================================= */
+
+        #loading {
+            display: none;
+
+            text-align: center;
+
+            padding: 30px;
+
+            margin-bottom: 22px;
+
+            border-radius: 18px;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .loading-spinner {
+            width: 42px;
+            height: 42px;
+
+            margin:
+                0 auto 12px;
+
+            border-radius: 50%;
+
+            border:
+                4px solid #e5e7eb;
+
+            border-top-color:
+                #4f46e5;
+
+            animation:
+                spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        .loading-text {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           DASHBOARD
+           ========================================================= */
+
+        #dashboard {
+            display: none;
+        }
+
+        .dashboard-header {
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 20px;
+
+            padding: 24px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 28px rgba(15,23,42,0.05);
+        }
+
+        .profile-name {
+            font-size: 28px;
+
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        .location-name {
+            margin-top: 4px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .homepage-title {
+            margin-top: 18px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            color: #312e81;
+        }
+
+        .homepage-focus {
+            margin-top: 5px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           WEATHER
+           ========================================================= */
+
+        .weather-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .weather-item {
+            padding: 18px;
+
+            min-height: 110px;
+
+            border-radius: 16px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .weather-label {
+            font-size: 12px;
+
+            color: #64748b;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .4px;
+        }
+
+        .weather-value {
+            margin-top: 7px;
+
+            font-size: 23px;
+
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        /* =========================================================
+           HOURLY
+           ========================================================= */
+
+        .hourly-container {
+            overflow-x: auto;
+
+            padding-bottom: 6px;
+        }
+
+        .hourly-grid {
+            display: flex;
+
+            gap: 14px;
+
+            min-width: max-content;
+        }
+
+        .hour-card {
+            width: 145px;
+
+            flex-shrink: 0;
+
+            padding: 16px;
+
+            text-align: center;
+
+            border-radius: 16px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .hour-time {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 700;
+        }
+
+        .hour-temperature {
+            margin: 8px 0;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        .hour-detail {
+            margin-top: 5px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           SAFETY
+           ========================================================= */
+
+        .safety-normal {
+            padding: 16px;
+
+            border-radius: 14px;
+
+            background: #f0fdf4;
+
+            border:
+                1px solid #bbf7d0;
+
+            border-left:
+                5px solid #16a34a;
+
+            color: #166534;
+        }
+
+        .alert-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+        .alert {
+            padding: 17px 18px;
+
+            border-radius: 14px;
+
+            border-left: 5px solid;
+        }
+
+        .alert-critical {
+            background: #fef2f2;
+
+            border-left-color: #dc2626;
+
+            color: #991b1b;
+        }
+
+        .alert-high {
+            background: #fff7ed;
+
+            border-left-color: #ea580c;
+
+            color: #9a3412;
+        }
+
+        .alert-medium {
+            background: #fffbeb;
+
+            border-left-color: #d97706;
+
+            color: #92400e;
+        }
+
+        .alert-title {
+            font-weight: 800;
+
+            margin-bottom: 3px;
+        }
+
+        .alert-message {
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           RECOMMENDATIONS
+           ========================================================= */
+
+        .recommendation-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .recommendation {
+            position: relative;
+
+            padding:
+                18px 18px 18px 50px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eef2ff
+                );
+
+            border:
+                1px solid #e0e7ff;
+
+            color: #374151;
+
+            font-size: 14px;
+        }
+
+        .recommendation::before {
+            content: "✓";
+
+            position: absolute;
+
+            left: 16px;
+            top: 16px;
+
+            width: 25px;
+            height: 25px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-weight: 800;
+
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           DAY PLAN
+           ========================================================= */
+
+        .day-plan-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+        .day-card {
+            overflow: hidden;
+
+            border-radius: 18px;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            box-shadow:
+                0 4px 18px
+                rgba(15,23,42,0.04);
+        }
+
+        .day-card-header {
+            padding: 17px 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f5f3ff
+                );
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        .day-card-title {
+            font-size: 18px;
+
+            font-weight: 800;
+
+            color: #312e81;
+        }
+
+        .day-card-subtitle {
+            margin-top: 2px;
+
+            font-size: 13px;
+
+            color: #64748b;
+        }
+
+        .period-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .period {
+            padding: 18px 20px;
+
+            border-bottom:
+                1px solid #f1f5f9;
+        }
+
+        .period:nth-child(odd) {
+            border-right:
+                1px solid #f1f5f9;
+        }
+
+        .period:nth-last-child(-n+2) {
+            border-bottom: none;
+        }
+
+        .period-title {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            color: #111827;
+
+            margin-bottom: 9px;
+        }
+
+        .period-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 14px;
+
+            padding: 5px 0;
+
+            font-size: 13px;
+        }
+
+        .period-label {
+            color: #64748b;
+        }
+
+        .period-value {
+            color: #1f2937;
+
+            font-weight: 650;
+
+            text-align: right;
+        }
+
+        .period-advice {
+            margin-top: 10px;
+
+            padding: 10px 12px;
+
+            border-radius: 10px;
+
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           AQI
+           ========================================================= */
+
+        .aqi-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .aqi-card {
+            padding: 16px;
+
+            border-radius: 15px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .aqi-label {
+            color: #64748b;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .aqi-value {
+            margin-top: 5px;
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        /* =========================================================
+           MARINE
+           ========================================================= */
+
+        .marine-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .marine-card {
+            padding: 17px;
+
+            border-radius: 15px;
+
+            background: #f0f9ff;
+
+            border:
+                1px solid #bae6fd;
+        }
+
+        .marine-label {
+            font-size: 12px;
+
+            color: #0369a1;
+
+            font-weight: 700;
+        }
+
+        .marine-value {
+            margin-top: 5px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            color: #0c4a6e;
+        }
+
+        /* =========================================================
+           TRAVEL
+           ========================================================= */
+
+        .travel-box {
+            overflow: hidden;
+
+            margin-bottom: 16px;
+
+            border-radius: 18px;
+
+            background: #fafaff;
+
+            border:
+                1px solid #ddd6fe;
+        }
+
+        .travel-box-title {
+            padding: 16px 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ede9fe,
+                    #eef2ff
+                );
+
+            color: #3730a3;
+
+            font-weight: 800;
+
+            border-bottom:
+                1px solid #ddd6fe;
+        }
+
+        .travel-box-content {
+            padding: 18px;
+        }
+
+        .travel-weather-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        .travel-weather-item {
+            padding: 13px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .travel-weather-label {
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .travel-weather-value {
+            margin-top: 3px;
+
+            font-size: 18px;
+
+            font-weight: 800;
+        }
+
+        .packing-list {
+            padding-left: 20px;
+        }
+
+        .packing-list li {
+            padding: 3px 0;
+
+            color: #374151;
+
+            font-size: 14px;
+        }
+
+        .travel-plan-day {
+            padding: 18px;
+
+            margin-bottom: 12px;
+
+            border-radius: 15px;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .travel-plan-day:last-child {
+            margin-bottom: 0;
+        }
+
+        .travel-plan-day-title {
+            margin-bottom: 8px;
+
+            color: #312e81;
+
+            font-weight: 800;
+        }
+
+        .travel-plan-item {
+            padding: 5px 0;
+
+            color: #4b5563;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           EMPTY STATE
+           ========================================================= */
+
+        .empty-state {
+            width: 100%;
+
+            padding: 28px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            background: #f8fafc;
+
+            border:
+                1px dashed #cbd5e1;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .footer {
+            text-align: center;
+
+            padding:
+                25px 10px 10px;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        .footer strong {
+            color: #4338ca;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1100px) {
+
+            .input-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .traveler-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .weather-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .aqi-container {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .marine-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 24px 20px;
+
+                border-radius: 18px;
+            }
+
+            .brand-title {
+                font-size: 25px;
+            }
+
+            .brand-icon {
+                width: 52px;
+                height: 52px;
+
+                font-size: 27px;
+            }
+
+            .card {
+                padding: 17px;
+
+                border-radius: 16px;
+            }
+
+            .input-grid,
+            .traveler-grid,
+            .weather-grid,
+            .aqi-container,
+            .marine-grid,
+            .recommendation-list,
+            .travel-weather-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .period-list {
+                grid-template-columns: 1fr;
+            }
+
+            .period:nth-child(odd) {
+                border-right: none;
+            }
+
+            .period {
+                border-bottom:
+                    1px solid #f1f5f9 !important;
+            }
+
+            .period:last-child {
+                border-bottom: none !important;
+            }
+
+            .button-row {
+                justify-content: stretch;
+            }
+
+            .generate-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
+    <header class="header">
+
+        <div class="header-content">
+
+            <div class="brand-row">
+
+                <div class="brand-icon">
+                    🌦️
+                </div>
+
+                <div>
+
+                    <div class="brand-title">
+                        Mausam PersonalAI
+                    </div>
+
+                    <div
+                        class="brand-subtitle"
+                        id="headerSubtitle"
+                    >
+                        Personalized Weather Intelligence Platform
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-description">
+
+                A multilingual, profile-aware weather
+                intelligence platform that converts weather
+                data into personalized and actionable
+                recommendations.
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         USER INPUT
+         ========================================================= -->
+
+    <section class="card">
+
+
+        <div class="section-title">
+
+            <div class="section-icon">
+                📍
+            </div>
+
+            <div id="personalizeTitle">
+                Personalize Your Weather
+            </div>
+
+        </div>
+
+
+        <div class="section-description">
+
+            Select your state, district and user profile.
+            The homepage will prioritize weather information
+            according to your selected profile.
+
+        </div>
+
+
+        <div class="input-grid">
+
+
+            <!-- STATE -->
+
+            <div class="form-group">
+
+                <label
+                    for="state"
+                    id="stateLabel"
+                >
+                    State
+                </label>
+
+                <select id="state">
+
+                    <option value="">
+                        Select State
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DISTRICT -->
+
+            <div class="form-group">
+
+                <label
+                    for="district"
+                    id="districtLabel"
+                >
+                    District
+                </label>
+
+                <select
+                    id="district"
+                    disabled
+                >
+
+                    <option value="">
+                        Select District
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="form-group">
+
+                <label
+                    for="profile"
+                    id="profileLabel"
+                >
+                    User Profile
+                </label>
+
+                <select id="profile">
+
+                    <option value="">
+                        Select Profile
+                    </option>
+
+                </select>
+
+
+                <div class="profile-help">
+
+                    The selected profile controls
+                    which weather parameters receive
+                    higher priority.
+
+                </div>
+
+            </div>
+
+
+            <!-- LANGUAGE -->
+
+            <div class="form-group">
+
+                <label
+                    for="language"
+                    id="languageLabel"
+                >
+                    Language
+                </label>
+
+                <select id="language">
+
+                    <option value="en">
+                        English
+                    </option>
+
+                    <option value="ta">
+                        தமிழ்
+                    </option>
+
+                    <option value="hi">
+                        हिन्दी
+                    </option>
+
+                    <option value="te">
+                        తెలుగు
+                    </option>
+
+                    <option value="ml">
+                        മലയാളം
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================================
+             TRAVELER
+             ===================================================== -->
+
+        <div id="travelerSection">
+
+
+            <div class="traveler-box">
+
+
+                <div class="section-title">
+
+                    <div class="section-icon">
+                        ✈️
+                    </div>
+
+                    <div id="travelerDetailsTitle">
+                        Traveler Details
+                    </div>
+
+                </div>
+
+
+                <div class="section-description">
+
+                    Provide your destination and departure
+                    information to generate a personalized
+                    travel weather plan.
+
+                </div>
+
+
+                <div class="traveler-grid">
+
+
+                    <!-- DESTINATION STATE -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="destinationState"
+                            id="destinationStateLabel"
+                        >
+                            Destination State
+                        </label>
+
+                        <select id="destinationState">
+
+                            <option value="">
+                                Select Destination State
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESTINATION DISTRICT -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="destinationDistrict"
+                            id="destinationDistrictLabel"
+                        >
+                            Destination District
+                        </label>
+
+                        <select
+                            id="destinationDistrict"
+                            disabled
+                        >
+
+                            <option value="">
+                                Select Destination District
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- TRANSPORT -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="transport"
+                            id="transportLabel"
+                        >
+                            Transport
+                        </label>
+
+                        <select id="transport">
+
+                            <option value="">
+                                Select Transport
+                            </option>
+
+                            <option value="car">
+                                🚗 Car
+                            </option>
+
+                            <option value="bike">
+                                🏍️ Bike
+                            </option>
+
+                            <option value="bus">
+                                🚌 Bus
+                            </option>
+
+                            <option value="train">
+                                🚆 Train
+                            </option>
+
+                            <option value="flight">
+                                ✈️ Flight
+                            </option>
+
+                            <option value="walk">
+                                🚶 Walking
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DAYS -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="days"
+                            id="daysLabel"
+                        >
+                            Travel Days
+                        </label>
+
+                        <input
+                            type="number"
+                            id="days"
+                            min="1"
+                            max="7"
+                            value="1"
+                        >
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="departureDate"
+                            id="departureDateLabel"
+                        >
+                            Departure Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="departureDate"
+                        >
+
+                    </div>
+
+
+                    <!-- TIME -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="departureTime"
+                            id="departureTimeLabel"
+                        >
+                            Departure Time
+                        </label>
+
+                        <input
+                            type="time"
+                            id="departureTime"
+                            value="08:00"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="traveler-note">
+
+                    💡 Departure weather is selected from
+                    the nearest available hourly forecast
+                    for your chosen departure time.
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             GENERATE
+             ===================================================== -->
+
+        <div class="button-row">
+
+            <button
+                type="button"
+                class="generate-button"
+                id="generateButton"
+            >
+
+                🌤️ Generate Personalized Homepage
+
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =========================================================
+         ERROR
+         ========================================================= -->
+
+    <div
+        id="error"
+        role="alert"
+    ></div>
+
+
+    <!-- =========================================================
+         LOADING
+         ========================================================= -->
+
+    <div id="loading">
+
+        <div class="loading-spinner"></div>
+
+        <div class="loading-text">
+
+            Fetching weather data and generating
+            personalized recommendations...
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         DASHBOARD
+         ========================================================= -->
+
+    <main id="dashboard">
+
+
+        <!-- =====================================================
+             PROFILE HEADER
+             ===================================================== -->
+
+        <section class="dashboard-header">
+
+            <div
+                class="profile-name"
+                id="profileName"
+            >
+                Personalized Weather
+            </div>
+
+
+            <div
+                class="location-name"
+                id="locationName"
+            >
+                Location
+            </div>
+
+
+            <div
+                class="homepage-title"
+                id="homepageTitle"
+            >
+                Your Personalized Weather Homepage
+            </div>
+
+
+            <div
+                class="homepage-focus"
+                id="homepageFocus"
+            >
+                Personalized weather insights for your selected
+                profile.
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CURRENT WEATHER
+             ===================================================== -->
+
+        <section class="card">
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🌡️
+                </div>
+
+                <div id="currentWeatherTitle">
+                    Current Weather
+                </div>
+
+            </div>
+
+
+            <div
+                id="currentWeather"
+                class="weather-grid"
+            ></div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             HOURLY WEATHER
+             ===================================================== -->
+
+        <section class="card">
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🕐
+                </div>
+
+                <div id="hourlyWeatherTitle">
+                    Hourly Weather
+                </div>
+
+            </div>
+
+
+            <div class="hourly-container">
+
+                <div
+                    id="hourlyWeather"
+                    class="hourly-grid"
+                ></div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             SAFETY
+             ===================================================== -->
+
+        <section class="card">
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🛡️
+                </div>
+
+                <div id="safetyTitle">
+                    Safety &amp; Alerts
+                </div>
+
+            </div>
+
+
+            <div id="safety"></div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             RECOMMENDATIONS
+             ===================================================== -->
+
+        <section class="card">
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    💡
+                </div>
+
+                <div id="recommendationsTitle">
+                    Personalized Recommendations
+                </div>
+
+            </div>
+
+
+            <div
+                id="recommendations"
+                class="recommendation-list"
+            ></div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             DAY PLAN
+             ===================================================== -->
+
+        <section class="card">
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    📅
+                </div>
+
+                <div id="dayPlanTitle">
+                    Complete Day Plan
+                </div>
+
+            </div>
+
+
+            <div
+                id="dayPlan"
+                class="day-plan-list"
+            ></div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             AIR QUALITY
+             ===================================================== -->
+
+        <section
+            class="card"
+            id="airQualitySection"
+            style="display:none;"
+        >
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🌫️
+                </div>
+
+                <div id="airQualityTitle">
+                    Air Quality
+                </div>
+
+            </div>
+
+
+            <div
+                id="airQuality"
+                class="aqi-container"
+            ></div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             MARINE
+             ===================================================== -->
+
+        <section
+            class="card"
+            id="marineSection"
+            style="display:none;"
+        >
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🌊
+                </div>
+
+                <div id="marineTitle">
+                    Marine Weather
+                </div>
+
+            </div>
+
+
+            <div
+                id="marine"
+                class="marine-grid"
+            ></div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             TRAVEL
+             ===================================================== -->
+
+        <section
+            class="card"
+            id="travelSection"
+            style="display:none;"
+        >
+
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🧳
+                </div>
+
+                <div id="travelTitle">
+                    Travel Plan
+                </div>
+
+            </div>
+
+
+            <div id="travel"></div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer class="footer">
+
+        <div>
+
+            <strong>Mausam PersonalAI</strong>
+
+            —
+            Personalized Weather Intelligence Platform
+
+        </div>
+
+
+        <div style="margin-top:5px;">
+
+            Weather insights are generated using
+            meteorological data, personalization rules
+            and safety logic.
+
+        </div>
+
+    </footer>
+
+
+</div>
+
+
+
+<script>
+
+/* =============================================================
+   MAUSAM PERSONAL AI
+   COMPLETE FRONTEND JAVASCRIPT
+   ============================================================= */
+
+
+/* =============================================================
+   LOCATION DATA
+   This matches your current data/locations.csv
+   ============================================================= */
+
+const LOCATION_DATA = {
+
+    "Tamil Nadu": {
+        "Chennai": [13.0827, 80.2707],
+        "Coimbatore": [11.0168, 76.9558],
+        "Madurai": [9.9252, 78.1198],
+        "Salem": [11.6643, 78.1460],
+        "Tiruchirappalli": [10.7905, 78.7047],
+        "Tirunelveli": [8.7139, 77.7567],
+        "Vellore": [12.9165, 79.1325],
+        "Erode": [11.3410, 77.7172],
+        "Thanjavur": [10.7870, 79.1378],
+        "Dindigul": [10.3673, 77.9803]
+    },
+
+    "Kerala": {
+        "Thiruvananthapuram": [8.5241, 76.9366],
+        "Kochi": [9.9312, 76.2673],
+        "Kozhikode": [11.2588, 75.7804]
+    },
+
+    "Karnataka": {
+        "Bengaluru": [12.9716, 77.5946],
+        "Mysuru": [12.2958, 76.6394]
+    },
+
+    "Maharashtra": {
+        "Mumbai": [19.0760, 72.8777],
+        "Pune": [18.5204, 73.8567]
+    },
+
+    "Delhi": {
+        "New Delhi": [28.6139, 77.2090]
+    },
+
+    "Telangana": {
+        "Hyderabad": [17.3850, 78.4867]
+    },
+
+    "Andhra Pradesh": {
+        "Vijayawada": [16.5062, 80.6480]
+    }
+
+};
+
+
+/* =============================================================
+   PROFILE DATA
+   ============================================================= */
+
+const PROFILE_DATA = {
+
+    health: {
+        en: "Health-conscious",
+        ta: "உடல்நல அக்கறையுள்ளவர்",
+        hi: "स्वास्थ्य के प्रति जागरूक",
+        te: "ఆరోగ్యంపై శ్రద్ధ ఉన్నవారు",
+        ml: "ആരോഗ്യ ബോധമുള്ളവർ"
+    },
+
+    fitness: {
+        en: "Outdoor Fitness",
+        ta: "வெளிப்புற உடற்பயிற்சி",
+        hi: "आउटडोर फिटनेस",
+        te: "బయటి ఫిట్‌నెస్",
+        ml: "ഔട്ട്ഡോർ ഫിറ്റ്നസ്"
+    },
+
+    beach: {
+        en: "Beach & Surfer",
+        ta: "கடற்கரை மற்றும் சர்ஃபர்",
+        hi: "बीच और सर्फर",
+        te: "బీచ్ మరియు సర్ఫర్",
+        ml: "ബീച്ചും സർഫറും"
+    },
+
+    traveler: {
+        en: "Traveler",
+        ta: "பயணி",
+        hi: "यात्री",
+        te: "ప్రయాణికుడు",
+        ml: "യാത്രികൻ"
+    },
+
+    family: {
+        en: "Parents & Families",
+        ta: "பெற்றோர் மற்றும் குடும்பங்கள்",
+        hi: "माता-पिता और परिवार",
+        te: "తల్లిదండ్రులు మరియు కుటుంబాలు",
+        ml: "മാതാപിതാക്കളും കുടുംബങ്ങളും"
+    },
+
+    agriculture: {
+        en: "Agriculture & Garden",
+        ta: "விவசாயம் மற்றும் தோட்டம்",
+        hi: "कृषि और बागवानी",
+        te: "వ్యవసాయం మరియు తోట",
+        ml: "കൃഷിയും തോട്ടവും"
+    },
+
+    commuter: {
+        en: "Commuter",
+        ta: "தினசரி பயணி",
+        hi: "दैनिक यात्री",
+        te: "రోజువారీ ప్రయాణికుడు",
+        ml: "ദൈനംദിന യാത്രികൻ"
+    },
+
+    event: {
+        en: "Event Planner",
+        ta: "நிகழ்ச்சி திட்டமிடுபவர்",
+        hi: "कार्यक्रम आयोजक",
+        te: "ఈవెంట్ ప్లానర్",
+        ml: "ഇവന്റ് പ്ലാനർ"
+    }
+
+};
+
+
+/* =============================================================
+   ELEMENTS
+   ============================================================= */
+
+const stateSelect =
+    document.getElementById("state");
+
+const districtSelect =
+    document.getElementById("district");
+
+const profileSelect =
+    document.getElementById("profile");
+
+const languageSelect =
+    document.getElementById("language");
+
+const destinationStateSelect =
+    document.getElementById("destinationState");
+
+const destinationDistrictSelect =
+    document.getElementById("destinationDistrict");
+
+const travelerSection =
+    document.getElementById("travelerSection");
+
+const generateButton =
+    document.getElementById("generateButton");
+
+const errorBox =
+    document.getElementById("error");
+
+const loadingBox =
+    document.getElementById("loading");
+
+const dashboard =
+    document.getElementById("dashboard");
+
+
+/* =============================================================
+   BASIC HELPERS
+   ============================================================= */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function safeNumber(value, fallback = null) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+        return fallback;
+    }
+
+    const number =
+        Number(value);
+
+    if (Number.isNaN(number)) {
+        return fallback;
+    }
+
+    return number;
+}
+
+
+function formatNumber(value, decimals = 1) {
+
+    const number =
+        safeNumber(value);
+
+    if (number === null) {
+        return "N/A";
+    }
+
+    return number.toFixed(decimals);
+}
+
+
+function showError(message) {
+
+    errorBox.textContent =
+        message || "Something went wrong.";
+
+    errorBox.style.display =
+        "block";
+
+}
+
+
+function hideError() {
+
+    errorBox.textContent = "";
+
+    errorBox.style.display =
+        "none";
+
+}
+
+
+function showLoading() {
+
+    loadingBox.style.display =
+        "block";
+
+    generateButton.disabled =
+        true;
+
+}
+
+
+function hideLoading() {
+
+    loadingBox.style.display =
+        "none";
+
+    generateButton.disabled =
+        false;
+
+}
+
+
+/* =============================================================
+   POPULATE STATE DROPDOWN
+   ============================================================= */
+
+function populateStates() {
+
+    stateSelect.innerHTML = `
+        <option value="">
+            Select State
+        </option>
+    `;
+
+    destinationStateSelect.innerHTML = `
+        <option value="">
+            Select Destination State
+        </option>
+    `;
+
+
+    Object.keys(LOCATION_DATA)
+        .forEach(function(state) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                state;
+
+            option.textContent =
+                state;
+
+            stateSelect.appendChild(
+                option
+            );
+
+
+            const destinationOption =
+                document.createElement("option");
+
+            destinationOption.value =
+                state;
+
+            destinationOption.textContent =
+                state;
+
+            destinationStateSelect.appendChild(
+                destinationOption
+            );
+
+        });
+
+}
+
+
+/* =============================================================
+   POPULATE DISTRICT
+   ============================================================= */
+
+function populateDistricts(
+    state,
+    selectElement,
+    placeholder
+) {
+
+    selectElement.innerHTML = `
+        <option value="">
+            ${placeholder}
+        </option>
+    `;
+
+    selectElement.disabled =
+        true;
+
+
+    if (!state) {
+        return;
+    }
+
+
+    const districts =
+        LOCATION_DATA[state];
+
+
+    if (!districts) {
+        return;
+    }
+
+
+    Object.keys(districts)
+        .forEach(function(district) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                district;
+
+            option.textContent =
+                district;
+
+            selectElement.appendChild(
+                option
+            );
+
+        });
+
+
+    selectElement.disabled =
+        false;
+
+}
+
+
+/* =============================================================
+   POPULATE PROFILE
+   ============================================================= */
+
+function populateProfiles() {
+
+    profileSelect.innerHTML = `
+        <option value="">
+            Select Profile
+        </option>
+    `;
+
+
+    Object.keys(PROFILE_DATA)
+        .forEach(function(profileId) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                profileId;
+
+            option.textContent =
+                PROFILE_DATA[profileId].en;
+
+            profileSelect.appendChild(
+                option
+            );
+
+        });
+
+}
+
+
+/* =============================================================
+   STATE CHANGE
+   ============================================================= */
+
+stateSelect.addEventListener(
+    "change",
+    function() {
+
+        populateDistricts(
+            stateSelect.value,
+            districtSelect,
+            "Select District"
+        );
+
+    }
+);
+
+
+/* =============================================================
+   DESTINATION STATE CHANGE
+   ============================================================= */
+
+destinationStateSelect.addEventListener(
+    "change",
+    function() {
+
+        populateDistricts(
+            destinationStateSelect.value,
+            destinationDistrictSelect,
+            "Select Destination District"
+        );
+
+    }
+);
+
+
+/* =============================================================
+   PROFILE CHANGE
+   ============================================================= */
+
+profileSelect.addEventListener(
+    "change",
+    function() {
+
+        if (
+            profileSelect.value ===
+            "traveler"
+        ) {
+
+            travelerSection.style.display =
+                "block";
+
+            setDefaultDepartureDate();
+
+        } else {
+
+            travelerSection.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+/* =============================================================
+   DEFAULT DEPARTURE DATE
+   ============================================================= */
+
+function setDefaultDepartureDate() {
+
+    const dateInput =
+        document.getElementById(
+            "departureDate"
+        );
+
+    if (!dateInput.value) {
+
+        const today =
+            new Date();
+
+        const year =
+            today.getFullYear();
+
+        const month =
+            String(
+                today.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                today.getDate()
+            ).padStart(2, "0");
+
+
+        dateInput.value =
+            `${year}-${month}-${day}`;
+
+    }
+
+}
+
+
+/* =============================================================
+   LANGUAGE
+   ============================================================= */
+
+function getLanguage() {
+
+    return (
+        languageSelect.value ||
+        "en"
+    );
+
+}
+
+
+/* =============================================================
+   LANGUAGE UI
+   ============================================================= */
+
+function updateProfileLanguage() {
+
+    const language =
+        getLanguage();
+
+
+    Array.from(
+        profileSelect.options
+    ).forEach(function(option) {
+
+        const profileId =
+            option.value;
+
+
+        if (
+            profileId &&
+            PROFILE_DATA[profileId]
+        ) {
+
+            option.textContent =
+                PROFILE_DATA[profileId][language]
+                ||
+                PROFILE_DATA[profileId].en;
+
+        }
+
+    });
+
+}
+
+
+/* =============================================================
+   LANGUAGE CHANGE
+   ============================================================= */
+
+languageSelect.addEventListener(
+    "change",
+    function() {
+
+        updateProfileLanguage();
+
+    }
+);
+
+
+/* =============================================================
+   GET LOCATION
+   ============================================================= */
+
+function getSelectedLocation() {
+
+    const state =
+        stateSelect.value;
+
+    const district =
+        districtSelect.value;
+
+
+    if (
+        !state ||
+        !district
+    ) {
+
+        return null;
+
+    }
+
+
+    const coordinates =
+        LOCATION_DATA[state] &&
+        LOCATION_DATA[state][district];
+
+
+    if (!coordinates) {
+        return null;
+    }
+
+
+    return {
+
+        state: state,
+
+        district: district,
+
+        latitude:
+            coordinates[0],
+
+        longitude:
+            coordinates[1]
+
+    };
+
+}
+
+
+/* =============================================================
+   ADD QUERY PARAMETER
+   ============================================================= */
+
+function addParam(
+    params,
+    key,
+    value
+) {
+
+    if (
+        value !== null &&
+        value !== undefined &&
+        value !== ""
+    ) {
+
+        params.set(
+            key,
+            value
+        );
+
+    }
+
+}
+
+
+/* =============================================================
+   FETCH JSON
+   ============================================================= */
+
+async function fetchJson(url) {
+
+    const response =
+        await fetch(url);
+
+
+    const text =
+        await response.text();
+
+
+    let data;
+
+
+    try {
+
+        data =
+            JSON.parse(text);
+
+    } catch (error) {
+
+        throw new Error(
+            "Backend returned invalid JSON."
+        );
+
+    }
+
+
+    if (!response.ok) {
+
+        const detail =
+            data.detail ||
+            data.message ||
+            "Backend request failed.";
+
+        throw new Error(
+            detail
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =============================================================
+   GENERATE HOMEPAGE
+   ============================================================= */
+
+async function generateHomepage() {
+
+    hideError();
+
+
+    const state =
+        stateSelect.value;
+
+    const district =
+        districtSelect.value;
+
+    const profile =
+        profileSelect.value;
+
+    const language =
+        languageSelect.value;
+
+
+    /* ---------------------------------------------------------
+       BASIC VALIDATION
+       --------------------------------------------------------- */
+
+    if (!state) {
+
+        showError(
+            "Please select a state."
+        );
+
+        return;
+
+    }
+
+
+    if (!district) {
+
+        showError(
+            "Please select a district."
+        );
+
+        return;
+
+    }
+
+
+    if (!profile) {
+
+        showError(
+            "Please select a user profile."
+        );
+
+        return;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       TRAVELER VALIDATION
+       --------------------------------------------------------- */
+
+    if (
+        profile ===
+        "traveler"
+    ) {
+
+        const destinationState =
+            destinationStateSelect.value;
+
+        const destinationDistrict =
+            destinationDistrictSelect.value;
+
+        const transport =
+            document.getElementById(
+                "transport"
+            ).value;
+
+        const days =
+            document.getElementById(
+                "days"
+            ).value;
+
+        const departureDate =
+            document.getElementById(
+                "departureDate"
+            ).value;
+
+        const departureTime =
+            document.getElementById(
+                "departureTime"
+            ).value;
+
+
+        if (!destinationState) {
+
+            showError(
+                "Please select destination state."
+            );
+
+            return;
+
+        }
+
+
+        if (!destinationDistrict) {
+
+            showError(
+                "Please select destination district."
+            );
+
+            return;
+
+        }
+
+
+        if (!transport) {
+
+            showError(
+                "Please select transport."
+            );
+
+            return;
+
+        }
+
+
+        if (!days) {
+
+            showError(
+                "Please enter number of travel days."
+            );
+
+            return;
+
+        }
+
+
+        if (!departureDate) {
+
+            showError(
+                "Please select departure date."
+            );
+
+            return;
+
+        }
+
+
+        if (!departureTime) {
+
+            showError(
+                "Please select departure time."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* ---------------------------------------------------------
+       BUILD API URL
+       --------------------------------------------------------- */
+
+    const params =
+        new URLSearchParams();
+
+
+    addParam(
+        params,
+        "state",
+        state
+    );
+
+    addParam(
+        params,
+        "district",
+        district
+    );
+
+    addParam(
+        params,
+        "profile",
+        profile
+    );
+
+    addParam(
+        params,
+        "language",
+        language
+    );
+
+
+    if (
+        profile ===
+        "traveler"
+    ) {
+
+        addParam(
+            params,
+            "destination_state",
+            document.getElementById(
+                "destinationState"
+            ).value
+        );
+
+        addParam(
+            params,
+            "destination_district",
+            document.getElementById(
+                "destinationDistrict"
+            ).value
+        );
+
+        addParam(
+            params,
+            "transport",
+            document.getElementById(
+                "transport"
+            ).value
+        );
+
+        addParam(
+            params,
+            "days",
+            document.getElementById(
+                "days"
+            ).value
+        );
+
+        addParam(
+            params,
+            "departure_date",
+            document.getElementById(
+                "departureDate"
+            ).value
+        );
+
+        addParam(
+            params,
+            "departure_time",
+            document.getElementById(
+                "departureTime"
+            ).value
+        );
+
+    }
+
+
+    const url =
+        "/personalized-homepage?" +
+        params.toString();
+
+
+    /* ---------------------------------------------------------
+       REQUEST
+       --------------------------------------------------------- */
+
+    showLoading();
+
+
+    try {
+
+        const data =
+            await fetchJson(url);
+
+
+        console.log(
+            "MAUSAM BACKEND RESPONSE:",
+            data
+        );
+
+
+        renderDashboard(
+            data
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "MAUSAM ERROR:",
+            error
+        );
+
+
+        showError(
+            error.message ||
+            "Unable to generate personalized homepage."
+        );
+
+
+        dashboard.style.display =
+            "none";
+
+
+    } finally {
+
+        hideLoading();
+
+    }
+
+}
+
+
+/* =============================================================
+   RENDER DASHBOARD
+   ============================================================= */
+
+function renderDashboard(
+    data
+) {
+
+    dashboard.style.display =
+        "block";
+
+
+    const location =
+        data.location ||
+        {};
+
+
+    const profileId =
+        data.profile ||
+        data.profile_id ||
+        "";
+
+
+    const profileName =
+        data.profile_name ||
+        (
+            data.personalized &&
+            data.personalized.profile_name
+        ) ||
+        PROFILE_DATA[profileId]?.en ||
+        profileId ||
+        "Personalized Weather";
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        profileName;
+
+
+    document.getElementById(
+        "locationName"
+    ).textContent =
+        (
+            location.district ||
+            ""
+        ) +
+        (
+            location.state
+                ? ", " + location.state
+                : ""
+        );
+
+
+    /* ---------------------------------------------------------
+       HOMEPAGE
+       --------------------------------------------------------- */
+
+    renderHomepage(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       CURRENT WEATHER
+       --------------------------------------------------------- */
+
+    renderCurrentWeather(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       HOURLY WEATHER
+       --------------------------------------------------------- */
+
+    renderHourlyWeather(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       SAFETY
+       --------------------------------------------------------- */
+
+    renderSafety(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       RECOMMENDATIONS
+       --------------------------------------------------------- */
+
+    renderRecommendations(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       DAY PLAN
+       --------------------------------------------------------- */
+
+    renderDayPlan(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       AIR QUALITY
+       --------------------------------------------------------- */
+
+    renderAirQuality(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       MARINE
+       --------------------------------------------------------- */
+
+    renderMarine(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       TRAVEL
+       --------------------------------------------------------- */
+
+    renderTravel(
+        data
+    );
+
+
+    /* ---------------------------------------------------------
+       SCROLL
+       --------------------------------------------------------- */
+
+    dashboard.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+/* =============================================================
+   HOMEPAGE
+   ============================================================= */
+
+function renderHomepage(
+    data
+) {
+
+    const homepage =
+        data.homepage ||
+        {};
+
+
+    const personalized =
+        data.personalized ||
+        {};
+
+
+    const title =
+        homepage.title ||
+        personalized.title ||
+        "Your Personalized Weather Homepage";
+
+
+    const focus =
+        homepage.focus ||
+        homepage.description ||
+        personalized.focus ||
+        personalized.description ||
+        "Weather information customized for your profile.";
+
+
+    document.getElementById(
+        "homepageTitle"
+    ).textContent =
+        title;
+
+
+    document.getElementById(
+        "homepageFocus"
+    ).textContent =
+        focus;
+
+}
+
+
+/* =============================================================
+   FIND WEATHER DATA
+   ============================================================= */
+
+function getWeatherData(
+    data
+) {
+
+    if (
+        data.weather
+    ) {
+
+        return data.weather;
+
+    }
+
+
+    if (
+        data.personalized &&
+        data.personalized.weather
+    ) {
+
+        return data.personalized.weather;
+
+    }
+
+
+    if (
+        data.personalized &&
+        data.personalized.current
+    ) {
+
+        return data.personalized;
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =============================================================
+   CURRENT WEATHER
+   ============================================================= */
+
+function renderCurrentWeather(
+    data
+) {
+
+    const container =
+        document.getElementById(
+            "currentWeather"
+        );
+
+
+    const weather =
+        getWeatherData(
+            data
+        );
+
+
+    if (!weather) {
+
+        container.innerHTML =
+            emptyState(
+                "Current weather data is not available."
+            );
+
+        return;
+
+    }
+
+
+    const current =
+        weather.current ||
+        {};
+
+
+    const html = [];
+
+
+    html.push(
+        weatherCard(
+            "Temperature",
+            current.temperature,
+            "°C"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Feels Like",
+            current.feels_like,
+            "°C"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Humidity",
+            current.humidity,
+            "%"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Rain",
+            current.rain,
+            " mm"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Precipitation",
+            current.precipitation,
+            " mm"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Wind Speed",
+            current.wind_speed,
+            " km/h"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Wind Direction",
+            current.wind_direction,
+            "°"
+        )
+    );
+
+
+    html.push(
+        weatherCard(
+            "Weather Code",
+            current.weather_code,
+            ""
+        )
+    );
+
+
+    container.innerHTML =
+        html.join("");
+
+}
+
+
+/* =============================================================
+   WEATHER CARD
+   ============================================================= */
+
+function weatherCard(
+    label,
+    value,
+    unit
+) {
+
+    let displayValue;
+
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        displayValue =
+            "N/A";
+
+    } else if (
+        typeof value === "number"
+    ) {
+
+        displayValue =
+            formatNumber(
+                value
+            );
+
+    } else {
+
+        displayValue =
+            value;
+
+    }
+
+
+    return `
+        <div class="weather-item">
+
+            <div class="weather-label">
+                ${escapeHtml(label)}
+            </div>
+
+            <div class="weather-value">
+
+                ${escapeHtml(displayValue)}
+
+                <span style="
+                    font-size:13px;
+                    color:#64748b;
+                    font-weight:600;
+                ">
+                    ${escapeHtml(unit)}
+                </span>
+
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+/* =============================================================
+   HOURLY WEATHER
+   ============================================================= */
+
+function renderHourlyWeather(
+    data
+) {
+
+    const container =
+        document.getElementById(
+            "hourlyWeather"
+        );
+
+
+    const weather =
+        getWeatherData(
+            data
+        );
+
+
+    if (!weather) {
+
+        container.innerHTML =
+            emptyState(
+                "Hourly weather data is not available."
+            );
+
+        return;
+
+    }
+
+
+    const hourly =
+        weather.hourly ||
+        {};
+
+
+    const times =
+        hourly.time ||
+        [];
+
+
+    if (!times.length) {
+
+        container.innerHTML =
+            emptyState(
+                "Hourly forecast is not available."
+            );
+
+        return;
+
+    }
+
+
+    const temperatures =
+        hourly.temperature ||
+        [];
+
+    const rainProbability =
+        hourly.rain_probability ||
+        [];
+
+    const precipitation =
+        hourly.precipitation ||
+        [];
+
+    const visibility =
+        hourly.visibility ||
+        [];
+
+    const uv =
+        hourly.uv ||
+        [];
+
+
+    const count =
+        Math.min(
+            times.length,
+            12
+        );
+
+
+    let html = "";
+
+
+    for (
+        let i = 0;
+        i < count;
+        i++
+    ) {
+
+        html += `
+
+            <div class="hour-card">
+
+                <div class="hour-time">
+                    ${escapeHtml(
+                        formatTime(times[i])
+                    )}
+                </div>
+
+
+                <div class="hour-temperature">
+
+                    ${formatNumber(
+                        temperatures[i],
+                        1
+                    )}°C
+
+                </div>
+
+
+                <div class="hour-detail">
+
+                    🌧️ Rain:
+                    ${formatNumber(
+                        rainProbability[i],
+                        0
+                    )}%
+
+                </div>
+
+
+                <div class="hour-detail">
+
+                    💧 Precipitation:
+                    ${formatNumber(
+                        precipitation[i],
+                        1
+                    )} mm
+
+                </div>
+
+
+                <div class="hour-detail">
+
+                    ☀️ UV:
+                    ${formatNumber(
+                        uv[i],
+                        1
+                    )}
+
+                </div>
+
+
+                <div class="hour-detail">
+
+                    👁️ Visibility:
+                    ${formatVisibility(
+                        visibility[i]
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =============================================================
+   TIME
+   ============================================================= */
+
+function formatTime(
+    value
+) {
+
+    if (!value) {
+        return "N/A";
+    }
+
+
+    try {
+
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return value;
+
+        }
+
+
+        return date.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    } catch (error) {
+
+        return value;
+
+    }
+
+}
+
+
+/* =============================================================
+   VISIBILITY
+   ============================================================= */
+
+function formatVisibility(
+    value
+) {
+
+    const number =
+        safeNumber(value);
+
+
+    if (
+        number === null
+    ) {
+
+        return "N/A";
+
+    }
+
+
+    if (
+        number >= 1000
+    ) {
+
+        return (
+            number / 1000
+        ).toFixed(1) +
+        " km";
+
+    }
+
+
+    return (
+        number.toFixed(0) +
+        " m"
+    );
+
+}
+
+
+/* =============================================================
+   SAFETY
+   ============================================================= */
+
+function renderSafety(
+    data
+) {
+
+    const container =
+        document.getElementById(
+            "safety"
+        );
+
+
+    const safety =
+        data.safety ||
+        {};
+
+
+    const alerts =
+        safety.safety_alerts ||
+        safety.alerts ||
+        data.safety_alerts ||
+        [];
+
+
+    if (
+        !Array.isArray(alerts) ||
+        alerts.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="safety-normal">
+
+                ✓ No major safety alerts detected.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html =
+        '<div class="alert-list">';
+
+
+    alerts.forEach(
+        function(alert) {
+
+            if (
+                typeof alert === "string"
+            ) {
+
+                html += `
+
+                    <div class="alert alert-high">
+
+                        <div class="alert-message">
+
+                            ${escapeHtml(alert)}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            const severity =
+                (
+                    alert.severity ||
+                    "medium"
+                ).toLowerCase();
+
+
+            let className =
+                "alert-medium";
+
+
+            if (
+                severity === "critical"
+            ) {
+
+                className =
+                    "alert-critical";
+
+            } else if (
+                severity === "high"
+            ) {
+
+                className =
+                    "alert-high";
+
+            }
+
+
+            html += `
+
+                <div class="alert ${className}">
+
+                    <div class="alert-title">
+
+                        ${escapeHtml(
+                            alert.type ||
+                            alert.title ||
+                            "Safety Alert"
+                        )}
+
+                    </div>
+
+
+                    <div class="alert-message">
+
+                        ${escapeHtml(
+                            alert.message ||
+                            alert.description ||
+                            ""
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html +=
+        "</div>";
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =============================================================
+   FIND RECOMMENDATIONS
+   ============================================================= */
+
+function findRecommendations(
+    data
+) {
+
+    const possibleSources = [
+
+        data.recommendations,
+
+        data.rules &&
+        data.rules.recommendations,
+
+        data.safety &&
+        data.safety.recommendations,
+
+        data.personalized &&
+        data.personalized.recommendations,
+
+        data.homepage &&
+        data.homepage.recommendations
+
+    ];
+
+
+    for (
+        const source of possibleSources
+    ) {
+
+        if (
+            Array.isArray(source) &&
+            source.length > 0
+        ) {
+
+            return source;
+
+        }
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =============================================================
+   RECOMMENDATIONS
+   ============================================================= */
+
+function renderRecommendations(
+    data
+) {
+
+    const container =
+        document.getElementById(
+            "recommendations"
+        );
+
+
+    const recommendations =
+        findRecommendations(
+            data
+        );
+
+
+    if (
+        !recommendations.length
+    ) {
+
+        container.innerHTML =
+            emptyState(
+                "No personalized recommendations are available."
+            );
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    recommendations.forEach(
+        function(item) {
+
+            let text = "";
+            let title = "";
+
+
+            if (
+                typeof item === "string"
+            ) {
+
+                text =
+                    item;
+
+            } else if (
+                item &&
+                typeof item === "object"
+            ) {
+
+                title =
+                    item.title ||
+                    item.type ||
+                    item.category ||
+                    "";
+
+
+                text =
+                    item.message ||
+                    item.recommendation ||
+                    item.description ||
+                    item.text ||
+                    JSON.stringify(item);
+
+            }
+
+
+            html += `
+
+                <div class="recommendation">
+
+                    ${
+                        title
+                        ? `
+                            <div style="
+                                font-weight:800;
+                                color:#312e81;
+                                margin-bottom:4px;
+                            ">
+                                ${escapeHtml(title)}
+                            </div>
+                          `
+                        : ""
+                    }
+
+
+                    <div>
+
+                        ${escapeHtml(text)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =============================================================
+   FIND DAY PLAN
+   ============================================================= */
+
+function findDayPlan(
+    data
+) {
+
+    const possibleSources = [
+
+        data.day_plan,
+
+        data.dayPlan,
+
+        data.complete_day_plan,
+
+        data.personalized &&
+        data.personalized.day_plan,
+
+        data.personalized &&
+        data.personalized.dayPlan,
+
+        data.homepage &&
+        data.homepage.day_plan
+
+    ];
+
+
+    for (
+        const source of possibleSources
+    ) {
+
+        if (
+            source &&
+            (
+                Array.isArray(source) ||
+                typeof source === "object"
+            )
+        ) {
+
+            return source;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =============================================================
+   DAY PLAN
+   ============================================================= */
+
+function renderDayPlan(
+    data
+) {
+
+    const container =
+        document.getElementById(
+            "dayPlan"
+        );
+
+
+    const dayPlan =
+        findDayPlan(
+            data
+        );
+
+
+    if (!dayPlan) {
+
+        container.innerHTML =
+            emptyState(
+                "Complete day plan is not available."
+            );
+
+        return;
+
+    }
+
+
+    if (
+        Array.isArray(dayPlan)
+    ) {
+
+        renderDayPlanArray(
+            container,
+            dayPlan
+        );
+
+        return;
+
+    }
+
+
+    if (
+        typeof dayPlan === "object"
+    ) {
+
+        renderDayPlanObject(
+            container,
+            dayPlan
+        );
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        emptyState(
+            "Complete day plan is not available."
+        );
+
+}
+
+
+/* =============================================================
+   DAY PLAN ARRAY
+   ============================================================= */
+
+function renderDayPlanArray(
+    container,
+    days
+) {
+
+    let html = "";
+
+
+    days.forEach(
+        function(day, index) {
+
+            if (
+                typeof day === "string"
+            ) {
+
+                html += `
+
+                    <div class="day-card">
+
+                        <div class="day-card-header">
+
+                            <div class="day-card-title">
+
+                                Day ${index + 1}
+
+                            </div>
+
+                        </div>
+
+                        <div style="padding:20px;">
+
+                            ${escapeHtml(day)}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            const date =
+                day.date ||
+                day.day ||
+                day.time ||
+                `Day ${index + 1}`;
+
+
+            html += `
+
+                <div class="day-card">
+
+                    <div class="day-card-header">
+
+                        <div class="day-card-title">
+
+                            ${escapeHtml(
+                                date
+                            )}
+
+                        </div>
+
+                    </div>
+
+                    <div class="period-list">
+
+                        ${renderPeriod(
+                            "🌅 Morning",
+                            day.morning
+                        )}
+
+                        ${renderPeriod(
+                            "☀️ Afternoon",
+                            day.afternoon
+                        )}
+
+                        ${renderPeriod(
+                            "🌇 Evening",
+                            day.evening
+                        )}
+
+                        ${renderPeriod(
+                            "🌙 Night",
+                            day.night
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+        html ||
+        emptyState(
+            "Complete day plan is not available."
+        );
+
+}
+
+
+/* =============================================================
+   DAY PLAN OBJECT
+   ============================================================= */
+
+function renderDayPlanObject(
+    container,
+    plan
+) {
+
+    const keys =
+        Object.keys(plan);
+
+
+    const dayLikeKeys =
+        keys.filter(
+            function(key) {
+
+                return (
+                    typeof plan[key] ===
+                    "object"
+                );
+
+            }
+        );
+
+
+    if (
+        dayLikeKeys.length
+    ) {
+
+        let html = "";
+
+
+        dayLikeKeys.forEach(
+            function(key, index) {
+
+                const value =
+                    plan[key];
+
+
+                if (
+                    value &&
+                    (
+                        value.morning ||
+                        value.afternoon ||
+                        value.evening ||
+                        value.night
+                    )
+                ) {
+
+                    html += `
+
+                        <div class="day-card">
+
+                            <div class="day-card-header">
+
+                                <div class="day-card-title">
+
+                                    ${escapeHtml(
+                                        key
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                            <div class="period-list">
+
+                                ${renderPeriod(
+                                    "🌅 Morning",
+                                    value.morning
+                                )}
+
+                                ${renderPeriod(
+                                    "☀️ Afternoon",
+                                    value.afternoon
+                                )}
+
+                                ${renderPeriod(
+                                    "🌇 Evening",
+                                    value.evening
+                                )}
+
+                                ${renderPeriod(
+                                    "🌙 Night",
+                                    value.night
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                } else {
+
+                    html += `
+
+                        <div class="day-card">
+
+                            <div class="day-card-header">
+
+                                <div class="day-card-title">
+
+                                    ${escapeHtml(
+                                        key
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                            <div style="padding:20px;">
+
+                                ${renderObjectContent(
+                                    value
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+        );
+
+
+        container.innerHTML =
+            html;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="day-card">
+
+            <div class="day-card-header">
+
+                <div class="day-card-title">
+
+                    Complete Day Plan
+
+                </div>
+
+            </div>
+
+            <div style="padding:20px;">
+
+                ${renderObjectContent(
+                    plan
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =============================================================
+   PERIOD
+   ============================================================= */
+
+function renderPeriod(
+    title,
+    period
+) {
+
+    if (
+        period === null ||
+        period === undefined
+    ) {
+
+        return `
+
+            <div class="period">
+
+                <div class="period-title">
+                    ${title}
+                </div>
+
+                <div class="period-advice">
+                    No information available.
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        typeof period === "string" ||
+        typeof period === "number"
+    ) {
+
+        return `
+
+            <div class="period">
+
+                <div class="period-title">
+                    ${title}
+                </div>
+
+                <div class="period-advice">
+
+                    ${escapeHtml(
+                        period
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    let rows = "";
+
+
+    Object.keys(period)
+        .forEach(
+            function(key) {
+
+                const value =
+                    period[key];
+
+
+                if (
+                    key === "advice" ||
+                    key === "recommendation" ||
+                    key === "message"
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    typeof value ===
+                    "object"
+                ) {
+
+                    return;
+
+                }
+
+
+                rows += `
+
+                    <div class="period-row">
+
+                        <span class="period-label">
+
+                            ${escapeHtml(
+                                formatKey(key)
+                            )}
+
+                        </span>
+
+                        <span class="period-value">
+
+                            ${escapeHtml(
+                                formatValue(value)
+                            )}
+
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+    const advice =
+        period.advice ||
+        period.recommendation ||
+        period.message ||
+        "";
+
+
+    return `
+
+        <div class="period">
+
+            <div class="period-title">
+
+                ${title}
+
+            </div>
+
+            ${rows}
+
+
+            ${
+                advice
+                ? `
+                    <div class="period-advice">
+
+                        ${escapeHtml(
+                            advice
+                        )}
+
+                    </div>
+                  `
+                : ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =============================================================
+   FORMAT OBJECT CONTENT
+   ============================================================= */
+
+function renderObjectContent(
+    object
+) {
+
+    if (
+        object === null ||
+        object === undefined
+    ) {
+
+        return "No information available.";
+
+    }
+
+
+    if (
+        typeof object === "string" ||
+        typeof object === "number"
+    ) {
+
+        return escapeHtml(
+            object
+        );
+
+    }
+
+
+    if (
+        Array.isArray(object)
+    ) {
+
+        return `
+
+            <ul style="
+                padding-left:20px;
+            ">
+
+                ${
+                    object.map(
+                        item =>
+                            `<li>
+                                ${escapeHtml(
+                                    typeof item === "object"
+                                        ? JSON.stringify(item)
+                                        : item
+                                )}
+                             </li>`
+                    ).join("")
+                }
+
+            </ul>
+
+        `;
+
+    }
+
+
+    let html = "";
+
+
+    Object.keys(object)
+        .forEach(
+            function(key) {
+
+                const value =
+                    object[key];
+
+
+                if (
+                    typeof value ===
+                    "object"
+                ) {
+
+                    return;
+
+                }
+
+
+                html += `
+
+                    <div class="period-row">
+
+                        <span class="period-label">
+
+                            ${escapeHtml(
+                                formatKey(key)
+                            )}
+
+                        </span>
+
+                        <span class="period-value">
+
+                            ${escapeHtml(
+                                formatValue(value)
+                            )}
+
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+    return html ||
+        escapeHtml(
+            JSON.stringify(object)
+        );
+
+}
+
+
+/* =============================================================
+   FORMAT KEY
+   ============================================================= */
+
+function formatKey(
+    key
+) {
+
+    return String(key)
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, function(letter) {
+            return letter.toUpperCase();
+        });
+
+}
+
+
+/* =============================================================
+   FORMAT VALUE
+   ============================================================= */
+
+function formatValue(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "N/A";
+
+    }
+
+
+    if (
+        typeof value ===
+        "number"
+    ) {
+
+        return formatNumber(
+            value,
+            1
+        );
+
+    }
+
+
+    return String(value);
+
+}
+
+
+/* =============================================================
+   AIR QUALITY
+   ============================================================= */
+
+function renderAirQuality(
+    data
+) {
+
+    const section =
+        document.getElementById(
+            "airQualitySection"
+        );
+
+    const container =
+        document.getElementById(
+            "airQuality"
+        );
+
+
+    const airQuality =
+        data.air_quality ||
+        (
+            data.personalized &&
+            data.personalized.air_quality
+        );
+
+
+    if (!airQuality) {
+
+        section.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    section.style.display =
+        "block";
+
+
+    const current =
+        airQuality.current ||
+        airQuality;
+
+
+    const values = [
+
+        ["US AQI", current.us_aqi],
+
+        ["AQI Level", current.aqi_level],
+
+        ["PM2.5", current.pm2_5],
+
+        ["PM10", current.pm10],
+
+        ["Ozone", current.ozone],
+
+        ["NO₂", current.nitrogen_dioxide],
+
+        ["SO₂", current.sulphur_dioxide],
+
+        ["CO", current.carbon_monoxide]
+
+    ];
+
+
+    container.innerHTML =
+        values.map(
+            function(item) {
+
+                return `
+
+                    <div class="aqi-card">
+
+                        <div class="aqi-label">
+
+                            ${escapeHtml(
+                                item[0]
+                            )}
+
+                        </div>
+
+                        <div class="aqi-value">
+
+                            ${escapeHtml(
+                                formatValue(
+                                    item[1]
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =============================================================
+   MARINE
+   ============================================================= */
+
+function renderMarine(
+    data
+) {
+
+    const section =
+        document.getElementById(
+            "marineSection"
+        );
+
+    const container =
+        document.getElementById(
+            "marine"
+        );
+
+
+    const marine =
+        data.marine ||
+        (
+            data.personalized &&
+            data.personalized.marine
+        );
+
+
+    if (!marine) {
+
+        section.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    section.style.display =
+        "block";
+
+
+    const current =
+        marine.current ||
+        marine;
+
+
+    const values = [
+
+        [
+            "Wave Height",
+            current.wave_height,
+            "m"
+        ],
+
+        [
+            "Wave Direction",
+            current.wave_direction,
+            "°"
+        ],
+
+        [
+            "Wave Period",
+            current.wave_period,
+            "s"
+        ],
+
+        [
+            "Wind Wave Height",
+            current.wind_wave_height,
+            "m"
+        ],
+
+        [
+            "Swell Wave Height",
+            current.swell_wave_height,
+            "m"
+        ],
+
+        [
+            "Sea Surface Temperature",
+            current.sea_surface_temperature,
+            "°C"
+        ]
+
+    ];
+
+
+    let html = "";
+
+
+    values.forEach(
+        function(item) {
+
+            html += `
+
+                <div class="marine-card">
+
+                    <div class="marine-label">
+
+                        ${escapeHtml(
+                            item[0]
+                        )}
+
+                    </div>
+
+                    <div class="marine-value">
+
+                        ${escapeHtml(
+                            formatValue(
+                                item[1]
+                            )
+                        )}
+
+                        ${escapeHtml(
+                            item[2]
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    if (
+        marine.tide
+    ) {
+
+        html += `
+
+            <div class="marine-card">
+
+                <div class="marine-label">
+                    Tide
+                </div>
+
+                <div class="marine-value">
+
+                    ${
+                        marine.tide.available
+                        ? "Available"
+                        : "Not available"
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =============================================================
+   TRAVEL
+   ============================================================= */
+
+function renderTravel(
+    data
+) {
+
+    const section =
+        document.getElementById(
+            "travelSection"
+        );
+
+    const container =
+        document.getElementById(
+            "travel"
+        );
+
+
+    const traveler =
+        data.traveler ||
+        data.travel ||
+        data.travel_plan;
+
+
+    if (!traveler) {
+
+        section.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    section.style.display =
+        "block";
+
+
+    let html = "";
+
+
+    /* ---------------------------------------------------------
+       SUMMARY
+       --------------------------------------------------------- */
+
+    if (
+        traveler.summary
+    ) {
+
+        html += `
+
+            <div class="travel-box">
+
+                <div class="travel-box-title">
+
+                    Travel Summary
+
+                </div>
+
+                <div class="travel-box-content">
+
+                    ${escapeHtml(
+                        typeof traveler.summary === "string"
+                            ? traveler.summary
+                            : JSON.stringify(
+                                traveler.summary
+                            )
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       DEPARTURE WEATHER
+       --------------------------------------------------------- */
+
+    if (
+        traveler.departure_weather
+    ) {
+
+        const weather =
+            traveler.departure_weather;
+
+
+        html += `
+
+            <div class="travel-box">
+
+                <div class="travel-box-title">
+
+                    Departure Weather
+
+                </div>
+
+                <div class="travel-box-content">
+
+                    <div class="travel-weather-grid">
+
+                        <div class="travel-weather-item">
+
+                            <div class="travel-weather-label">
+                                Time
+                            </div>
+
+                            <div class="travel-weather-value">
+
+                                ${escapeHtml(
+                                    weather.time ||
+                                    "N/A"
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="travel-weather-item">
+
+                            <div class="travel-weather-label">
+                                Temperature
+                            </div>
+
+                            <div class="travel-weather-value">
+
+                                ${formatNumber(
+                                    weather.temperature
+                                )}°C
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="travel-weather-item">
+
+                            <div class="travel-weather-label">
+                                Rain Probability
+                            </div>
+
+                            <div class="travel-weather-value">
+
+                                ${formatNumber(
+                                    weather.rain_probability,
+                                    0
+                                )}%
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="travel-weather-item">
+
+                            <div class="travel-weather-label">
+                                Wind Speed
+                            </div>
+
+                            <div class="travel-weather-value">
+
+                                ${formatNumber(
+                                    weather.wind_speed
+                                )} km/h
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="travel-weather-item">
+
+                            <div class="travel-weather-label">
+                                Visibility
+                            </div>
+
+                            <div class="travel-weather-value">
+
+                                ${formatVisibility(
+                                    weather.visibility
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="travel-weather-item">
+
+                            <div class="travel-weather-label">
+                                UV
+                            </div>
+
+                            <div class="travel-weather-value">
+
+                                ${formatNumber(
+                                    weather.uv
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       DEPARTURE ADVICE
+       --------------------------------------------------------- */
+
+    if (
+        traveler.departure_advice
+    ) {
+
+        html += `
+
+            <div class="travel-box">
+
+                <div class="travel-box-title">
+
+                    Departure Advice
+
+                </div>
+
+                <div class="travel-box-content">
+
+                    ${escapeHtml(
+                        traveler.departure_advice
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       TRAVEL ADVICE
+       --------------------------------------------------------- */
+
+    if (
+        traveler.travel_advice
+    ) {
+
+        html += `
+
+            <div class="travel-box">
+
+                <div class="travel-box-title">
+
+                    Travel Advice
+
+                </div>
+
+                <div class="travel-box-content">
+
+                    ${
+                        typeof traveler.travel_advice ===
+                        "string"
+                        ?
+                        escapeHtml(
+                            traveler.travel_advice
+                        )
+                        :
+                        renderObjectContent(
+                            traveler.travel_advice
+                        )
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       PACKING
+       --------------------------------------------------------- */
+
+    if (
+        traveler.packing_suggestions
+    ) {
+
+        const packing =
+            traveler.packing_suggestions;
+
+
+        const items =
+            Array.isArray(packing)
+            ? packing
+            : [packing];
+
+
+        html += `
+
+            <div class="travel-box">
+
+                <div class="travel-box-title">
+
+                    Packing Suggestions
+
+                </div>
+
+                <div class="travel-box-content">
+
+                    <ul class="packing-list">
+
+                        ${
+                            items.map(
+                                item =>
+                                    `<li>
+                                        ${escapeHtml(
+                                            typeof item === "string"
+                                                ? item
+                                                : JSON.stringify(item)
+                                        )}
+                                    </li>`
+                            ).join("")
+                        }
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       TRAVEL PLAN
+       --------------------------------------------------------- */
+
+    if (
+        traveler.travel_plan
+    ) {
+
+        html += `
+
+            <div class="travel-box">
+
+                <div class="travel-box-title">
+
+                    Multi-Day Travel Plan
+
+                </div>
+
+                <div class="travel-box-content">
+
+                    ${renderTravelPlan(
+                        traveler.travel_plan
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML =
+        html ||
+        emptyState(
+            "Travel information is not available."
+        );
+
+}
+
+
+/* =============================================================
+   TRAVEL PLAN
+   ============================================================= */
+
+function renderTravelPlan(
+    plan
+) {
+
+    if (
+        Array.isArray(plan)
+    ) {
+
+        return plan.map(
+            function(day, index) {
+
+                if (
+                    typeof day ===
+                    "string"
+                ) {
+
+                    return `
+
+                        <div class="travel-plan-day">
+
+                            <div class="travel-plan-day-title">
+
+                                Day ${index + 1}
+
+                            </div>
+
+                            <div class="travel-plan-item">
+
+                                ${escapeHtml(
+                                    day
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                return `
+
+                    <div class="travel-plan-day">
+
+                        <div class="travel-plan-day-title">
+
+                            ${
+                                escapeHtml(
+                                    day.date ||
+                                    day.day ||
+                                    `Day ${index + 1}`
+                                )
+                            }
+
+                        </div>
+
+                        <div>
+
+                            ${renderObjectContent(
+                                day
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+    }
+
+
+    if (
+        typeof plan ===
+        "object"
+    ) {
+
+        return Object.keys(plan)
+            .map(
+                function(key) {
+
+                    return `
+
+                        <div class="travel-plan-day">
+
+                            <div class="travel-plan-day-title">
+
+                                ${escapeHtml(
+                                    key
+                                )}
+
+                            </div>
+
+                            <div>
+
+                                ${renderObjectContent(
+                                    plan[key]
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    return escapeHtml(
+        plan
+    );
+
+}
+
+
+/* =============================================================
+   EMPTY STATE
+   ============================================================= */
+
+function emptyState(
+    message
+) {
+
+    return `
+
+        <div class="empty-state">
+
+            ${escapeHtml(
+                message
+            )}
+
+        </div>
+
+    `;
+
+}
+
+
+/* =============================================================
+   INITIALIZATION
+   ============================================================= */
+
+function initializePage() {
+
+    populateStates();
+
+    populateProfiles();
+
+    updateProfileLanguage();
+
+    setDefaultDepartureDate();
+
+
+    travelerSection.style.display =
+        "none";
+
+
+    dashboard.style.display =
+        "none";
+
+
+    hideError();
+
+
+    console.log(
+        "Mausam PersonalAI frontend initialized."
+    );
+
+}
+
+
+/* =============================================================
+   BUTTON
+   ============================================================= */
+
+generateButton.addEventListener(
+    "click",
+    generateHomepage
+);
+
+
+/* =============================================================
+   INITIALIZE
+   ============================================================= */
+
+initializePage();
+
+
+</script>
+
+
+</body>
+
+</html>
