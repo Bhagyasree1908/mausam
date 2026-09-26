@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05070b"
+    >
+
+    <meta
+        name="description"
+        content="Mausam Personal AI - Personalized weather intelligence"
+    >
+
+    <title>Mausam Personal AI</title>
+
+    <!-- Main stylesheet -->
+    <link
+        rel="stylesheet"
+        href="./css/style.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================================================
+         BACKGROUND
+    ========================================================== -->
+
+    <div id="weatherBackground" class="weather-background"></div>
+
+    <div class="background-overlay"></div>
+
+    <div class="background-glow background-glow-one"></div>
+    <div class="background-glow background-glow-two"></div>
+
+
+    <!-- =========================================================
+         APP
+    ========================================================== -->
+
+    <div class="app-shell">
+
+        <!-- =====================================================
+             TOP NAVIGATION
+        ====================================================== -->
+
+        <header class="topbar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    M
+                </div>
+
+                <div class="brand-text">
+                    <span class="brand-name">
+                        MAUSAM
+                    </span>
+
+                    <span class="brand-subtitle">
+                        PERSONAL AI
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <select
+                    id="languageSelect"
+                    class="language-select"
+                    aria-label="Language"
+                >
+                    <option value="en">
+                        English
+                    </option>
+
+                    <option value="ta">
+                        தமிழ்
+                    </option>
+                </select>
+
+
+                <button
+                    id="refreshButton"
+                    class="icon-button"
+                    type="button"
+                    aria-label="Refresh weather"
+                    title="Refresh"
+                >
+                    ↻
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             MAIN
+        ====================================================== -->
+
+        <main>
+
+            <!-- =================================================
+                 LOCATION SETUP
+            ================================================== -->
+
+            <section
+                id="setupSection"
+                class="setup-section glass-card"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            PERSONAL WEATHER
+                        </span>
+
+                        <h1>
+                            Weather that understands you.
+                        </h1>
+
+                        <p>
+                            Choose your location and personal mode
+                            to get a weather experience built around you.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="location-form">
+
+                    <!-- STATE -->
+
+                    <div class="form-field">
+
+                        <label for="stateSelect">
+                            State
+                        </label>
+
+                        <select
+                            id="stateSelect"
+                            class="form-select"
+                        >
+                            <option value="">
+                                Select state
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- DISTRICT -->
+
+                    <div class="form-field">
+
+                        <label for="districtSelect">
+                            District
+                        </label>
+
+                        <select
+                            id="districtSelect"
+                            class="form-select"
+                            disabled
+                        >
+                            <option value="">
+                                Select district
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        id="loadWeatherButton"
+                        class="primary-button"
+                        type="button"
+                    >
+                        <span>
+                            Show my weather
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PERSONA / MODE SELECTOR
+            ================================================== -->
+
+            <section class="persona-section">
+
+                <div class="section-title-row">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            PERSONAL MODE
+                        </span>
+
+                        <h2>
+                            What matters to you today?
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="personaGrid"
+                    class="persona-grid"
+                >
+
+                    <!-- HEALTH -->
+
+                    <button
+                        class="persona-card active"
+                        data-profile="health"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ♥
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Health
+                            </strong>
+
+                            <small>
+                                Wellness & air quality
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- FITNESS -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="fitness"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ↗
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Fitness
+                            </strong>
+
+                            <small>
+                                Outdoor activity
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- BEACH -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="beach"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ◒
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Beach
+                            </strong>
+
+                            <small>
+                                Ocean & marine weather
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- TRAVELER -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="traveler"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ✈
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Traveler
+                            </strong>
+
+                            <small>
+                                Journey planning
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- FAMILY -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="family"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ◎
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Family
+                            </strong>
+
+                            <small>
+                                Safe family outings
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- AGRICULTURE -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="agriculture"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ◈
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Agriculture
+                            </strong>
+
+                            <small>
+                                Crop & farm weather
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- COMMUTER -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="commuter"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            →
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Commuter
+                            </strong>
+
+                            <small>
+                                Daily travel conditions
+                            </small>
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- EVENT -->
+
+                    <button
+                        class="persona-card"
+                        data-profile="event"
+                        type="button"
+                    >
+
+                        <span class="persona-icon">
+                            ✦
+                        </span>
+
+                        <span class="persona-content">
+
+                            <strong>
+                                Event
+                            </strong>
+
+                            <small>
+                                Outdoor event planning
+                            </small>
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 TRAVELER OPTIONS
+            ================================================== -->
+
+            <section
+                id="travelerSection"
+                class="traveler-section glass-card hidden"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            TRAVEL MODE
+                        </span>
+
+                        <h2>
+                            Plan your journey
+                        </h2>
+
+                        <p>
+                            Tell Mausam where you're going and
+                            how you're travelling.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="traveler-form">
+
+                    <!-- DESTINATION STATE -->
+
+                    <div class="form-field">
+
+                        <label for="destinationStateSelect">
+                            Destination state
+                        </label>
+
+                        <select
+                            id="destinationStateSelect"
+                            class="form-select"
+                        >
+                            <option value="">
+                                Select destination
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESTINATION DISTRICT -->
+
+                    <div class="form-field">
+
+                        <label for="destinationDistrictSelect">
+                            Destination district
+                        </label>
+
+                        <select
+                            id="destinationDistrictSelect"
+                            class="form-select"
+                            disabled
+                        >
+                            <option value="">
+                                Select district
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- TRANSPORT -->
+
+                    <div class="form-field">
+
+                        <label for="transportSelect">
+                            Transport
+                        </label>
+
+                        <select
+                            id="transportSelect"
+                            class="form-select"
+                        >
+
+                            <option value="car">
+                                Car
+                            </option>
+
+                            <option value="bus">
+                                Bus
+                            </option>
+
+                            <option value="train">
+                                Train
+                            </option>
+
+                            <option value="flight">
+                                Flight
+                            </option>
+
+                            <option value="two_wheeler">
+                                Two Wheeler
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DAYS -->
+
+                    <div class="form-field">
+
+                        <label for="daysInput">
+                            Trip days
+                        </label>
+
+                        <input
+                            id="daysInput"
+                            class="form-input"
+                            type="number"
+                            min="1"
+                            max="7"
+                            value="3"
+                        >
+
+                    </div>
+
+
+                    <!-- DEPARTURE DATE -->
+
+                    <div class="form-field">
+
+                        <label for="departureDateInput">
+                            Departure date
+                        </label>
+
+                        <input
+                            id="departureDateInput"
+                            class="form-input"
+                            type="date"
+                        >
+
+                    </div>
+
+
+                    <!-- DEPARTURE TIME -->
+
+                    <div class="form-field">
+
+                        <label for="departureTimeInput">
+                            Departure time
+                        </label>
+
+                        <input
+                            id="departureTimeInput"
+                            class="form-input"
+                            type="time"
+                            value="08:00"
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <section
+                id="dashboard"
+                class="dashboard hidden"
+            >
+
+                <!-- =================================================
+                     LOCATION HEADER
+                ================================================== -->
+
+                <div class="location-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            YOUR LOCATION
+                        </span>
+
+                        <h2 id="locationName">
+                            —
+                        </h2>
+
+                        <p id="locationMeta">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-badge">
+
+                        <span id="profileBadgeIcon">
+                            ♥
+                        </span>
+
+                        <span id="profileBadgeName">
+                            Health
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CURRENT WEATHER HERO
+                ================================================== -->
+
+                <section class="weather-hero glass-card">
+
+                    <div class="weather-hero-main">
+
+                        <div class="weather-condition-icon">
+                            <span id="currentWeatherIcon">
+                                ☀
+                            </span>
+                        </div>
+
+
+                        <div class="temperature-block">
+
+                            <div class="temperature-row">
+
+                                <span
+                                    id="currentTemperature"
+                                    class="current-temperature"
+                                >
+                                    —
+                                </span>
+
+                                <span class="temperature-unit">
+                                    °C
+                                </span>
+
+                            </div>
+
+
+                            <p
+                                id="currentCondition"
+                                class="current-condition"
+                            >
+                                Loading weather...
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="weather-stats">
+
+                        <div class="weather-stat">
+
+                            <span class="stat-label">
+                                Feels like
+                            </span>
+
+                            <strong id="feelsLike">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-stat">
+
+                            <span class="stat-label">
+                                Humidity
+                            </span>
+
+                            <strong id="humidity">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-stat">
+
+                            <span class="stat-label">
+                                Wind
+                            </span>
+
+                            <strong id="windSpeed">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-stat">
+
+                            <span class="stat-label">
+                                UV
+                            </span>
+
+                            <strong id="uvIndex">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="weather-stat">
+
+                            <span class="stat-label">
+                                Rain
+                            </span>
+
+                            <strong id="rainAmount">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     WARNING
+                ================================================== -->
+
+                <section
+                    id="warningSection"
+                    class="warning-section hidden"
+                >
+
+                    <div class="warning-icon">
+                        !
+                    </div>
+
+                    <div class="warning-content">
+
+                        <span class="warning-label">
+                            WEATHER ALERT
+                        </span>
+
+                        <p id="warningText">
+                            —
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     NEXT 3 HOURS
+                ================================================== -->
+
+                <section class="dashboard-section">
+
+                    <div class="section-title-row">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                SHORT TERM
+                            </span>
+
+                            <h2>
+                                Next 3 hours
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="hourlyForecast"
+                        class="hourly-grid"
+                    >
+
+                        <!-- JS renders hourly cards -->
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     7 DAY FORECAST
+                ================================================== -->
+
+                <section class="dashboard-section">
+
+                    <div class="section-title-row">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                OUTLOOK
+                            </span>
+
+                            <h2>
+                                7-day forecast
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="dailyForecast"
+                        class="daily-grid"
+                    >
+
+                        <!-- JS renders daily cards -->
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     SUN + MOON
+                ================================================== -->
+
+                <section class="timeline-grid">
+
+                    <!-- SUN -->
+
+                    <div class="timeline-card glass-card">
+
+                        <div class="timeline-heading">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    DAYLIGHT
+                                </span>
+
+                                <h3>
+                                    Sun timeline
+                                </h3>
+
+                            </div>
+
+                            <span
+                                id="sunIcon"
+                                class="timeline-icon"
+                            >
+                                ☀
+                            </span>
+
+                        </div>
+
+
+                        <div class="timeline">
+
+                            <div
+                                id="sunrisePosition"
+                                class="timeline-progress"
+                            ></div>
+
+                            <div class="timeline-dot sunrise-dot"></div>
+                            <div class="timeline-dot sunset-dot"></div>
+
+                        </div>
+
+
+                        <div class="timeline-times">
+
+                            <div>
+
+                                <span>
+                                    Sunrise
+                                </span>
+
+                                <strong id="sunriseTime">
+                                    —
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Sunset
+                                </span>
+
+                                <strong id="sunsetTime">
+                                    —
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MOON -->
+
+                    <div class="timeline-card glass-card">
+
+                        <div class="timeline-heading">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    NIGHT SKY
+                                </span>
+
+                                <h3>
+                                    Moon timeline
+                                </h3>
+
+                            </div>
+
+                            <span
+                                id="moonIcon"
+                                class="timeline-icon"
+                            >
+                                ◐
+                            </span>
+
+                        </div>
+
+
+                        <div class="moon-display">
+
+                            <div
+                                id="moonPhaseIcon"
+                                class="moon-phase-icon"
+                            >
+                                ◐
+                            </div>
+
+                            <div>
+
+                                <strong id="moonPhaseName">
+                                    —
+                                </strong>
+
+                                <span id="moonPhaseDetail">
+                                    Moon phase
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-times">
+
+                            <div>
+
+                                <span>
+                                    Moonrise
+                                </span>
+
+                                <strong id="moonriseTime">
+                                    —
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Moonset
+                                </span>
+
+                                <strong id="moonsetTime">
+                                    —
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     AI FOCUS
+                ================================================== -->
+
+                <section class="dashboard-section">
+
+                    <div class="section-title-row">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                MAUSAM AI
+                            </span>
+
+                            <h2>
+                                Your weather focus
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="focusGrid"
+                        class="focus-grid"
+                    >
+
+                        <!-- JS renders personalized focus -->
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     HEALTH
+                ================================================== -->
+
+                <section
+                    id="healthPanel"
+                    class="special-panel glass-card hidden"
+                >
+
+                    <div class="special-panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                HEALTH INTELLIGENCE
+                            </span>
+
+                            <h2>
+                                Air quality
+                            </h2>
+
+                        </div>
+
+                        <span class="special-icon">
+                            ♥
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="healthContent"
+                        class="special-content"
+                    >
+                        <!-- JS -->
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     MARINE / BEACH
+                ================================================== -->
+
+                <section
+                    id="marinePanel"
+                    class="special-panel glass-card hidden"
+                >
+
+                    <div class="special-panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                MARINE INTELLIGENCE
+                            </span>
+
+                            <h2>
+                                Beach conditions
+                            </h2>
+
+                        </div>
+
+                        <span class="special-icon">
+                            ◒
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="marineContent"
+                        class="special-content"
+                    >
+                        <!-- JS -->
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     TRAVELER RESULT
+                ================================================== -->
+
+                <section
+                    id="travelerResultPanel"
+                    class="special-panel glass-card hidden"
+                >
+
+                    <div class="special-panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                JOURNEY INTELLIGENCE
+                            </span>
+
+                            <h2>
+                                Travel plan
+                            </h2>
+
+                        </div>
+
+                        <span class="special-icon">
+                            ✈
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="travelerContent"
+                        class="special-content"
+                    >
+                        <!-- JS -->
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     RECOMMENDATIONS
+                ================================================== -->
+
+                <section class="dashboard-section">
+
+                    <div class="section-title-row">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                PERSONALIZED
+                            </span>
+
+                            <h2>
+                                Recommendations
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="recommendationsGrid"
+                        class="recommendations-grid"
+                    >
+
+                        <!-- JS renders recommendations -->
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     DAY PLAN
+                ================================================== -->
+
+                <section class="dashboard-section">
+
+                    <div class="section-title-row">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                TODAY
+                            </span>
+
+                            <h2>
+                                Your day plan
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="dayPlan"
+                        class="day-plan"
+                    >
+
+                        <!-- JS renders day plan -->
+
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <footer class="footer">
+
+            <div>
+
+                <strong>
+                    MAUSAM
+                </strong>
+
+                <span>
+                    Personal AI Weather
+                </span>
+
+            </div>
+
+            <span>
+                Weather intelligence for your day.
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <!-- =========================================================
+         LOADING SCREEN
+    ========================================================== -->
+
+    <div
+        id="loadingOverlay"
+        class="loading-overlay hidden"
+    >
+
+        <div class="loading-card">
+
+            <div class="loading-spinner"></div>
+
+            <strong>
+                Mausam is thinking...
+            </strong>
+
+            <span>
+                Personalizing your weather
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         ERROR TOAST
+    ========================================================== -->
+
+    <div
+        id="errorToast"
+        class="error-toast hidden"
+        role="alert"
+    >
+
+        <div class="error-icon">
+            !
+        </div>
+
+        <div>
+
+            <strong>
+                Something went wrong
+            </strong>
+
+            <p id="errorMessage">
+                Please try again.
+            </p>
+
+        </div>
+
+        <button
+            id="closeErrorButton"
+            type="button"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <!-- Theme system -->
+    <script
+        src="./js/WeatherThemes.js"
+        defer
+    ></script>
+
+    <!-- API layer -->
+    <script
+        src="./js/api.js"
+        defer
+    ></script>
+
+    <!-- Main application -->
+    <script
+        src="./js/app.js"
+        defer
+    ></script>
+
+</body>
+</html>
