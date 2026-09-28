@@ -3,6 +3,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from backend.translation_service import translate_response
 from typing import Optional
+from .location_service import reverse_geocode
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 import os
 
 from backend.location_service import (
@@ -62,7 +65,14 @@ app = FastAPI(
     description="Personalized Weather Intelligence Platform",
     version="1.0.0"
 )
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BASE_DIR / "static"
 
+app.mount(
+    "/static",
+    StaticFiles(directory=STATIC_DIR),
+    name="static"
+)
 
 # =========================================================
 # FRONTEND PATH
@@ -119,8 +129,29 @@ def health():
 
 
 # =========================================================
-# WEATHER
+# WEATHER — MANUAL LOCATION
 # =========================================================
+@app.get("/reverse-geocode")
+def reverse_geocode_location(latitude: float, longitude: float):
+    if latitude < -90 or latitude > 90:
+        raise HTTPException(status_code=400, detail="Invalid latitude.")
+
+    if longitude < -180 or longitude > 180:
+        raise HTTPException(status_code=400, detail="Invalid longitude.")
+
+    try:
+        location = reverse_geocode(latitude, longitude)
+    except Exception as e:
+        print("REVERSE GEOCODE ERROR:", repr(e))
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to detect the address for the current location."
+        )
+
+    return {
+        "status": "success",
+        "location": location
+    }
 
 @app.get("/weather")
 def weather(
@@ -148,6 +179,75 @@ def weather(
     return {
         "location": location,
         "weather": weather_data
+    }
+
+
+# =========================================================
+# CURRENT WEATHER — GPS LOCATION
+# =========================================================
+
+@app.get("/current-weather")
+def current_weather(
+    latitude: float,
+    longitude: float
+):
+
+    # -----------------------------------------------------
+    # BASIC GPS VALIDATION
+    # -----------------------------------------------------
+
+    if latitude < -90 or latitude > 90:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid latitude."
+        )
+
+    if longitude < -180 or longitude > 180:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid longitude."
+        )
+
+    # -----------------------------------------------------
+    # GET WEATHER DIRECTLY FROM GPS COORDINATES
+    # -----------------------------------------------------
+
+    try:
+
+        weather_data = get_weather(
+            latitude,
+            longitude
+        )
+
+    except Exception as e:
+
+        print(
+            "CURRENT WEATHER ERROR:",
+            repr(e)
+        )
+
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to fetch weather for current location."
+        )
+
+    # -----------------------------------------------------
+    # RESPONSE
+    # -----------------------------------------------------
+
+    return {
+
+        "status": "success",
+
+        "location": {
+            "latitude": latitude,
+            "longitude": longitude
+        },
+
+        "weather": weather_data
+
     }
 
 
@@ -290,7 +390,6 @@ def personalized_homepage(
             status_code=404,
             detail="Invalid profile"
         )
-
 
     profile_id = profile.lower().strip()
 
@@ -487,42 +586,49 @@ def personalized_homepage(
         # -------------------------------------------------
 
         if not destination_state:
+
             raise HTTPException(
                 status_code=400,
                 detail="Destination state is required for Traveler profile."
             )
 
         if not destination_district:
+
             raise HTTPException(
                 status_code=400,
                 detail="Destination district is required for Traveler profile."
             )
 
         if not transport:
+
             raise HTTPException(
                 status_code=400,
                 detail="Transport mode is required for Traveler profile."
             )
 
         if days is None:
+
             raise HTTPException(
                 status_code=400,
                 detail="Trip days are required for Traveler profile."
             )
 
         if days < 1 or days > 7:
+
             raise HTTPException(
                 status_code=400,
                 detail="Trip days must be between 1 and 7."
             )
 
         if not departure_date:
+
             raise HTTPException(
                 status_code=400,
                 detail="Departure date is required for Traveler profile."
             )
 
         if not departure_time:
+
             raise HTTPException(
                 status_code=400,
                 detail="Departure time is required for Traveler profile."
@@ -535,7 +641,6 @@ def personalized_homepage(
 
         transport = transport.lower().strip()
 
-        # Accept the values used by your HTML
         transport_aliases = {
             "bike": "two_wheeler",
             "two-wheeler": "two_wheeler",
@@ -830,42 +935,62 @@ def personalized_homepage(
     # FINAL RESPONSE
     # =====================================================
 
-        # ========================================================
-    # FINAL RESPONSE
-    # ========================================================
-
     response = {
+
         "profile": profile_id,
+
         "profile_name": profile_data["name"],
-        "location": location,
+
+        "location": origin_location,
+
         "personalized": personalized_data,
+
         "rules": rule_result,
+
         "safety": safety_result,
+
         "day_plan": day_plan,
-        "homepage": homepage_information
+
+        "homepage": homepage
+
     }
 
+
     if profile_id == "health" and air_quality_data:
+
         response["air_quality"] = air_quality_data
 
+
     if profile_id == "beach" and marine_data:
+
         response["marine"] = marine_data
 
+
     if profile_id == "traveler":
+
         response["traveler"] = traveler_data
 
-    # ========================================================
+
+    # =====================================================
     # TRANSLATION
-    # ========================================================
+    # =====================================================
 
     try:
+
         return translate_response(
             response,
             language
         )
+
     except Exception as e:
-        print("TRANSLATION ERROR:", repr(e))
+
+        print(
+            "TRANSLATION ERROR:",
+            repr(e)
+        )
+
         return response
+
 
 # =========================================================
 # RECOMMENDATIONS
@@ -890,6 +1015,7 @@ def recommendations(
             detail="Location not found"
         )
 
+
     profile_data = get_profile(
         profile
     )
@@ -901,10 +1027,12 @@ def recommendations(
             detail="Invalid profile"
         )
 
+
     weather_data = get_weather(
         location_data["latitude"],
         location_data["longitude"]
     )
+
 
     air_quality_data = None
 
@@ -914,6 +1042,7 @@ def recommendations(
             location_data["latitude"],
             location_data["longitude"]
         )
+
 
     return evaluate_rules(
         profile,
@@ -945,6 +1074,7 @@ def day_plan(
             detail="Location not found"
         )
 
+
     profile_data = get_profile(
         profile
     )
@@ -956,10 +1086,12 @@ def day_plan(
             detail="Invalid profile"
         )
 
+
     weather_data = get_weather(
         location_data["latitude"],
         location_data["longitude"]
     )
+
 
     return generate_day_plan(
         profile,
@@ -989,14 +1121,19 @@ def marine(
             detail="Location not found"
         )
 
+
     marine_data = get_marine(
         location_data["latitude"],
         location_data["longitude"]
     )
 
+
     return {
+
         "location": location_data,
+
         "marine": marine_data
+
     }
 
 
@@ -1051,13 +1188,15 @@ def traveler_plan(
 
     transport_aliases = {
         "bike": "two_wheeler",
-        "two-wheeler": "two_wheeler"
+        "two-wheeler": "two_wheeler",
+        "two_wheeler": "two_wheeler"
     }
 
     transport = transport_aliases.get(
         transport,
         transport
     )
+
 
     allowed_transport = [
         "car",
@@ -1066,6 +1205,7 @@ def traveler_plan(
         "flight",
         "two_wheeler"
     ]
+
 
     if transport not in allowed_transport:
 
@@ -1186,15 +1326,18 @@ def beach_plan(
             detail="Location not found."
         )
 
+
     weather_data = get_weather(
         location_data["latitude"],
         location_data["longitude"]
     )
 
+
     marine_data = get_marine(
         location_data["latitude"],
         location_data["longitude"]
     )
+
 
     return {
 
@@ -1229,10 +1372,12 @@ def family_plan(
             detail="Location not found."
         )
 
+
     weather_data = get_weather(
         location_data["latitude"],
         location_data["longitude"]
     )
+
 
     recommendations = evaluate_rules(
         "family",
@@ -1240,10 +1385,12 @@ def family_plan(
         None
     )
 
+
     day_plan_data = generate_day_plan(
         "family",
         weather_data
     )
+
 
     return {
 
@@ -1278,10 +1425,12 @@ def commuter_plan(
             detail="Location not found."
         )
 
+
     weather_data = get_weather(
         location_data["latitude"],
         location_data["longitude"]
     )
+
 
     recommendations = evaluate_rules(
         "commuter",
@@ -1289,10 +1438,12 @@ def commuter_plan(
         None
     )
 
+
     day_plan_data = generate_day_plan(
         "commuter",
         weather_data
     )
+
 
     return {
 
@@ -1327,10 +1478,12 @@ def event_plan(
             detail="Location not found."
         )
 
+
     weather_data = get_weather(
         location_data["latitude"],
         location_data["longitude"]
     )
+
 
     recommendations = evaluate_rules(
         "event",
@@ -1338,10 +1491,12 @@ def event_plan(
         None
     )
 
+
     day_plan_data = generate_day_plan(
         "event",
         weather_data
     )
+
 
     return {
 
